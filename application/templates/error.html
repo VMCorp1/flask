@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Ошибка: 404{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Такого адреса не существует{% endblock %}
+{% block body %}{{ super() }}<p>Такого адреса не существует!</p>
+<p>
+ Вернитесь в <a href="{{ url_for('catalog') }}">каталог</a> или
+ сообщите об ошибке администратору по телефону 8-800-111-22-33
+</p>{% endblock %}
