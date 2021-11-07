@@ -1,9 +1,8 @@
-<!--TITLE-->
-Корзина пользователя
-<!--HEADER-->
-Ваша корзина
-<!--BODY-->
-<p>Вернуться в <a href="<!--ссылка на catalog-->">каталог</a></p>
+{% extends "base.html" %}
+{% block title %}Корзина пользователя{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Ваша корзина{% endblock %}
+{% block body %}{{ super() }}<p>Вернуться в <a href="{{ url_for('catalog') }}">каталог</a></p>
 <table>
 <tr>
  <th>N п/п</th>
@@ -19,5 +18,5 @@
 <p>Всего товаров в корзине на сумму:  руб.</p>
 
 <div class="button">
- <button onclick=location.href="<!--ссылка на order-->">Оформить заказ!</button>
-</div>
+ <button onclick=location.href="{{ url_for('order') }}">Оформить заказ!</button>
+</div>{% endblock %}

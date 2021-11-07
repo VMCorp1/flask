@@ -9,7 +9,7 @@ def page_not_found(e):
 @app.route('/')
 @app.route('/catalog')
 def catalog():
-    return "Это каталог товаров"
+    return render_template("catalog.html")
 
 
 @app.route('/add2basket/<int:id>/')
@@ -19,7 +19,7 @@ def add2basket(id):
 
 @app.route('/basket/')
 def basket():
-    return "Это корзина покупателя"
+    return render_template("basket.html")
 
 
 @app.route('/delete_from_basket/<int:id>/')
@@ -44,12 +44,13 @@ def admin():
 
 @app.route('/admin/add2catalog/')
 def add2catalog():
-    return "Это добавление товара в каталог"
+    return render_template('/admin/add2catalog.html')
 
 
 @app.route('/admin/save2catalog/', methods=['POST'])
 def save2catalog():
-    return "Это сохранение товара в каталог"
+    eshop.add_item_to_catalog(request.form)
+    return redirect(url_for('add2catalog'))
 
 
 @app.route('/admin/orders/')

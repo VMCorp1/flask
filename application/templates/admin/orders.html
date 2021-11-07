@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Поступившие заказы{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Поступившие заказы{% endblock %}
+{% block body %}{{ super() }}<p>Вернуться в <a href="{{ url_for('admin') }}">админку</a></p>
+<div class="order">
+ <h2>Заказ номер: </h2>
+ <p><span>Заказчик: </span></p>
+ <p><span>Email: </span></p>
+ <p><span>Телефон: </span></p>
+ <p><span>Адрес доставки: </span></p>
+ <p><span>Дата размещения заказа: </span></p>
+ <h3>Купленные товары:</h3>
+ <table>
+ <tr>
+   <th>N п/п</th>
+   <th>Название</th>
+   <th>Автор</th>
+   <th>Год издания</th>
+   <th>Цена, руб.</th>
+   <th>Количество</th>
+ </tr>
+ </table>
+ <p>Всего товаров в корзине на сумму:  руб.</p>
+</div>{% endblock %}

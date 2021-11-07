@@ -1,9 +1,8 @@
-<!--TITLE-->
-Каталог товаров
-<!--HEADER-->
-Каталог товаров
-<!--BODY-->
-<p>Товаров в <a href="<!--ссылка на basket-->">корзине</a>:</p>
+{% extends "base.html" %}
+{% block title %}Каталог товаров{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Каталог товаров{% endblock %}
+{% block body %}{{ super() }}<p>Товаров в <a href="{{ url_for('basket') }}">корзине</a>:</p>
 <table>
 <tr>
  <th>Название</th>
@@ -12,4 +11,4 @@
  <th>Цена, руб.</th>
  <th>В корзину</th>
 </tr>
-</table>
+</table>{% endblock %}

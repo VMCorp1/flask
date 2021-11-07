@@ -23,6 +23,6 @@ form label{
 .order p span{ font-weight: bold; }
 .flash{
    border:3px solid red;
-   background: yellow
+   background: yellow;
+   clear: both;
 }
-

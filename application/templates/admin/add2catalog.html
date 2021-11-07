@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Форма добавления товара в каталог{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Добавить товар в каталог{% endblock %}
+{% block body %}{{ super() }}<p>Вернуться в <a href="{{ url_for('admin') }}">админку</a></p>
+<form action="{{ url_for('save2catalog') }}" method="post">
+ <div>
+   <label>Название:</label>
+   <input type="text" name="title" size="50">
+ </div>
+ <div>
+   <label>Автор:</label>
+   <input type="text" name="author" size="50">
+ </div>
+ <div>
+   <label>Год издания:</label>
+   <input type="text" name="pubyear" size="50" maxlength="4">
+ </div>
+ <div>
+   <label>Цена:</label>
+   <input type="text" name="price" size="50" maxlength="5">
+ </div>
+ <div>
+   <input type="submit" value="Добавить">
+ </div>
+</form>{% endblock %}

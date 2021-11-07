@@ -1,9 +1,8 @@
-<!--TITLE-->
-Форма оформления заказа
-<!--HEADER-->
-Оформление заказа
-<!--BODY-->
-<form action="<!--ссылка на save_order-->" method="post">
+{% extends "base.html" %}
+{% block title %}Форма оформления заказа{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Оформление заказа{% endblock %}
+{% block body %}{{ super() }}<form action="{{ url_for('save_order') }}" method="post">
  <div>
    <label>Заказчик:</label>
    <input type="text" name="name" size="50" />
@@ -21,4 +20,5 @@
    <input type="text" name="address" size="50" />
  </div>
  <div><input type="submit" value="Заказать" /></div>
-</form>
+</form>{% endblock %}
+{{ url_for('catalog') }}"

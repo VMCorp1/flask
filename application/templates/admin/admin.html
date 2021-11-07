@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Админка{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block header %}Администрирование магазина{% endblock %}
+{% block body %}{{ super() }}<h3>Доступные действия:</h3>
+<ul>
+ <li><a href="{{ url_for('add2catalog') }}">Добавление товара в каталог</a></li>
+ <li><a href="{{ url_for('orders') }}">Просмотр готовых заказов</a></li>
+ <li><a href="{{ url_for('add_user') }}">Добавить пользователя</a></li>
+ <li><a href="{{ url_for('logout') }}">Завершить сеанс</a></li>
+</ul>{% endblock %}
