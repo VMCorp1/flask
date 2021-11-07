@@ -1,6 +1,5 @@
 from application import *
 
-
 def clear_str(input_str):
     input_str = Markup(input_str).striptags().strip()
     # summary = Markup.escape(request.form["summary"])
@@ -24,8 +23,11 @@ def add_item_to_catalog(data):
     if title == '' or author == '' or pubyear == 0 or price == 0:
         flash('Заполните все поля*', "error")
     else:
+        catalog_item = eshop.Catalog(title, author, pubyear, price)
+        db.session.add(catalog_item)
         flash('Успешно добавлено!')
         flash('Название: {0}'.format(title))
         flash('Автор: {0}'.format(author))
         flash('Год издания: {0}'.format(pubyear))
         flash('Цена: {0}'.format(price))
+
