@@ -9,7 +9,9 @@ def page_not_found(e):
 @app.route('/')
 @app.route('/catalog')
 def catalog():
-    return render_template("catalog.html")
+    items = eshop.get_items_from_catalog()
+    print (len(items))
+    return render_template('catalog.html', items=items, count=0)
 
 
 @app.route('/add2basket/<int:id>/')

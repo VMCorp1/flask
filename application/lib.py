@@ -23,11 +23,14 @@ def add_item_to_catalog(data):
     if title == '' or author == '' or pubyear == 0 or price == 0:
         flash('Заполните все поля*', "error")
     else:
-        catalog_item = eshop.Catalog(title, author, pubyear, price)
+        catalog_item = Catalog(title, author, pubyear, price)
         db.session.add(catalog_item)
+        db.session.commit()
         flash('Успешно добавлено!')
         flash('Название: {0}'.format(title))
         flash('Автор: {0}'.format(author))
         flash('Год издания: {0}'.format(pubyear))
         flash('Цена: {0}'.format(price))
 
+def get_items_from_catalog():
+    return Catalog.query.all()
