@@ -1,6 +1,4 @@
 from application import *
-from application.lib import save2basket
-
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -17,14 +15,16 @@ def catalog():
 
 @app.route('/add2basket/<int:id>/')
 def add2basket(id):
-    save2basket(id)
+    eshop.save2basket(id)
     return redirect(url_for('catalog'))
 
 
 
 @app.route('/basket/')
 def basket():
-    return render_template("basket.html")
+    items =eshop.get_items_from_basket()
+    return render_template("basket.html", items=items, count=g.count)
+
 
 
 @app.route('/delete_from_basket/<int:id>/')

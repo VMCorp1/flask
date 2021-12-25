@@ -13,10 +13,27 @@
  <th>Количество</th>
  <th>Удалить</th>
 </tr>
+{% set total = []%}
+{% set counter = [0] %}
+{%for item in items%}
+  <tr>
+    <td>{{counter|length}}</td>
+    <td>{{item.title}}</td>
+    <td>{{item.author}}</td>
+    <td>{{item.pubyear}}</td>
+    <td>{{item.price}}</td>
+    <td>{{item.quantity}}</td>
+    <td><a href='{{url_for('delete_from_basket', id=item.id)}}'>Удалить</a></td>
+  </tr>
+  {% if counter.append(item.quantity) %}{% endif %}
+  {% if total.append(item.price * item.quantity) %}{% endif %}
+{%endfor%}
 </table>
 
-<p>Всего товаров в корзине на сумму:  руб.</p>
+
+<p>Всего {{counter|sum}} товаров в корзине на сумму: {{total|sum}} руб.</p>
 
 <div class="button">
  <button onclick=location.href="{{ url_for('order') }}">Оформить заказ!</button>
 </div>{% endblock %}
+

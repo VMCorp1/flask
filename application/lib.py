@@ -79,7 +79,22 @@ def basket_serialize():
 
 def save2basket(id):
     if type(id) == int and id > 0:
-        g.basket[id] = 1
+        id = str(id)
+        if id not in list(g.basket.keys()):
+            g.basket[id] = 0
+        print(g.basket.keys())
+        g.basket[id] += 1
         g.save_basket = True
     else:
         g.save_basket = False
+
+
+def get_items_from_basket():
+    ids = list(g.basket.keys())
+    ids.remove('orderid')
+    items = []
+    if len(ids) > 0:
+        for item in Catalog.query.filter(Catalog.id.in_(ids)):
+            item.quantity = g.basket[str(item.id)]
+            items.append(item)
+    return items
