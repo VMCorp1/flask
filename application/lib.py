@@ -82,7 +82,6 @@ def save2basket(id):
         id = str(id)
         if id not in list(g.basket.keys()):
             g.basket[id] = 0
-        print(g.basket.keys())
         g.basket[id] += 1
         g.save_basket = True
     else:
@@ -98,3 +97,26 @@ def get_items_from_basket():
             item.quantity = g.basket[str(item.id)]
             items.append(item)
     return items
+
+
+def delete_from_basket(id):
+    if type(id) == int and id > 0:
+        id = str(id)
+        if id in list(g.basket.keys()):
+            del g.basket[id]
+            g.save_basket = True
+        else:
+            g.save_basket = False
+
+
+def plural(n, form1, form2, form5):
+    if 10 < n % 100 < 20:
+        return form5
+    if n % 10 == 1:
+        return form1
+    if 1 < n % 10 < 5:
+        return form2
+    if n % 10 >= 5:
+        return form5
+    if n % 10 == 0:
+        return form5

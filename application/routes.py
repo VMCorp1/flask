@@ -1,5 +1,6 @@
 from application import *
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("error.html")
@@ -19,17 +20,16 @@ def add2basket(id):
     return redirect(url_for('catalog'))
 
 
-
 @app.route('/basket/')
 def basket():
-    items =eshop.get_items_from_basket()
-    return render_template("basket.html", items=items, count=g.count)
-
+    items = eshop.get_items_from_basket()
+    return render_template("basket.html", items=items, count=g.count, plural=eshop.plural)
 
 
 @app.route('/delete_from_basket/<int:id>/')
 def delete_from_basket(id):
-    return "Это удаление из корзины"
+    eshop.delete_from_basket(id)
+    return redirect(url_for('basket'))
 
 
 @app.route('/order/')

@@ -4,36 +4,37 @@
 {% block header %}Ваша корзина{% endblock %}
 {% block body %}{{ super() }}<p>Вернуться в <a href="{{ url_for('catalog') }}">каталог</a></p>
 <table>
-<tr>
- <th>N п/п</th>
- <th>Название</th>
- <th>Автор</th>
- <th>Год издания</th>
- <th>Цена, руб.</th>
- <th>Количество</th>
- <th>Удалить</th>
-</tr>
-{% set total = []%}
-{% set counter = [0] %}
-{%for item in items%}
-  <tr>
-    <td>{{counter|length}}</td>
-    <td>{{item.title}}</td>
-    <td>{{item.author}}</td>
-    <td>{{item.pubyear}}</td>
-    <td>{{item.price}}</td>
-    <td>{{item.quantity}}</td>
-    <td><a href='{{url_for('delete_from_basket', id=item.id)}}'>Удалить</a></td>
-  </tr>
-  {% if counter.append(item.quantity) %}{% endif %}
-  {% if total.append(item.price * item.quantity) %}{% endif %}
-{%endfor%}
+    <tr>
+        <th>N п/п</th>
+        <th>Название</th>
+        <th>Автор</th>
+        <th>Год издания</th>
+        <th>Цена, руб.</th>
+        <th>Количество</th>
+        <th>Удалить</th>
+    </tr>
+    {% set total = []%}
+    {% set counter = [0] %}
+    {%for item in items%}
+    <tr>
+        <td>{{counter|length}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.author}}</td>
+        <td>{{item.pubyear}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.quantity}}</td>
+        <td><a href="{{url_for('delete_from_basket', id=item.id)}}">Удалить</a></td>
+    </tr>
+    {% if counter.append(item.quantity) %}{% endif %}
+    {% if total.append(item.price * item.quantity) %}{% endif %}
+    {%endfor%}
 </table>
 
-
-<p>Всего {{counter|sum}} товаров в корзине на сумму: {{total|sum}} руб.</p>
-
+{% if (counter|length) == 1%} <p>Ваша корзина пуста</p>{% else %}
+<p>Всего {{counter|sum}} {{ plural(counter|sum,'товар', 'товара','товаров')}} в корзине на сумму: {{total|sum}} руб.</p>
+{% endif %}
 <div class="button">
- <button onclick=location.href="{{ url_for('order') }}">Оформить заказ!</button>
+    <button onclick=location.href="{{ url_for(
+    'order') }}">Оформить заказ!</button>
 </div>{% endblock %}
 
