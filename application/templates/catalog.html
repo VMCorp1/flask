@@ -2,7 +2,7 @@
 {% block title %}Каталог товаров{% endblock %}
 {% block head %}{{ super() }}{% endblock %}
 {% block header %}Каталог товаров{% endblock %}
-{% block body %}{{ super() }}<p>Товаров в <a href="{{ url_for('basket') }}">корзине</a>:</p>
+{% block body %}{{ super() }}<p>Товаров в <a href="{{ url_for('basket') }}">корзине</a>:({{count}})</p>
 <table>
 <tr>
  <th>Название</th>

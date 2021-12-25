@@ -1,5 +1,6 @@
 from application import *
 
+
 def clear_str(input_str):
     input_str = Markup(input_str).striptags().strip()
     # summary = Markup.escape(request.form["summary"])
@@ -32,5 +33,53 @@ def add_item_to_catalog(data):
         flash('Год издания: {0}'.format(pubyear))
         flash('Цена: {0}'.format(price))
 
+
 def get_items_from_catalog():
     return Catalog.query.all()
+
+
+import base64, uuid, json
+
+
+def stringToBase64(s):
+    '''Упаковывает строку s алгоритмом base64 для целостности данных'''
+    return base64.b64encode(s.encode('utf-8'))
+
+
+def base64ToString(b):
+    '''Распаковывает base64 строку b в строку'''
+    return base64.b64decode(b).decode('utf-8')
+
+
+def basket_init():
+    # Вызывается при каждом запросе.
+    # Проверяет, первый ли раз пришёл пользователь.
+    # Если пользователь пришёл первыё раз, то
+    # создаётся корзина и генерируется уникальный
+    # идентификатор заказа.
+    # Иначе, корзина распаковывается в словарь basket
+    data = request.cookies.get("basket", None)
+
+    if not data:
+        g.count = 0  # количество товара в корзине
+        g.basket = {}
+        g.basket["orderid"] = str(uuid.uuid1())
+        g.save_basket = True  # надо ли сохранять корзину в куки
+    else:
+        g.basket = json.loads(base64ToString(data))
+        g.count = len(g.basket) - 1
+        g.save_basket = False
+
+
+def basket_serialize():
+    '''Сериализует корзину в формат JSON и оборачивает base64'''
+
+    return stringToBase64(json.dumps(g.basket))
+
+
+def save2basket(id):
+    if type(id) == int and id > 0:
+        g.basket[id] = 1
+        g.save_basket = True
+    else:
+        g.save_basket = False
