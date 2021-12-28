@@ -1,4 +1,5 @@
 from application import *
+import time
 
 
 def clear_str(input_str):
@@ -60,7 +61,7 @@ def basket_init():
     # Иначе, корзина распаковывается в словарь basket
     data = request.cookies.get("basket", None)
 
-    if not data:
+    if not data or g.delete_basket:
         g.count = 0  # количество товара в корзине
         g.basket = {}
         g.basket["orderid"] = str(uuid.uuid1())
@@ -120,3 +121,39 @@ def plural(n, form1, form2, form5):
         return form5
     if n % 10 == 0:
         return form5
+
+
+def save_order(data):
+    name = clear_str(data['name'])
+    email = clear_str(data['email'])
+    phone = clear_str(data['phone'])
+    address = clear_str(data['address'])
+    error = False
+    if name == '':
+        flash('Заполните поле имя!', 'error')
+        error = True
+    if email == '':
+        flash('Заполните поле email!', 'error')
+        error = True
+    if phone == '':
+        flash('Заполните поле номер телефона!', 'error')
+        error = True
+    if address == '':
+        flash('Заполните поле адрес!', 'error')
+        error = True
+    if not error:
+        try:
+            order = Order(name, email, phone, address, g.basket['orderid'], int(time.time()))
+            db.session.add(order)
+            items = get_items_from_basket()
+            for item in items:
+                db.session.add(OrderItem(item.title, item.author, item.pubyear, item.price, item.quantity, order.id))
+            db.session.commit()
+            flash("Ваш заказ принят.")
+            g.delete_basket = True
+            return True
+        except:
+            db.session.rollback()
+            flash("Произошла ошибка!")
+            return False
+    return False

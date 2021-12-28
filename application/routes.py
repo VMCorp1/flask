@@ -33,13 +33,16 @@ def delete_from_basket(id):
 
 
 @app.route('/order/')
-def order():
-    return "Это оформление заказа"
+def order(data=[]):
+    return render_template("order.html", data=data)
 
 
 @app.route('/save_order/', methods=['POST'])
 def save_order():
-    return "Это сохранение заказов"
+    if eshop.save_order(request.form):
+        return render_template("save_order.html")
+    else:
+        return order(request.form)
 
 
 @app.route('/admin/')

@@ -24,7 +24,7 @@ import application.routes
 @app.before_request
 def wakeup():
     g.save_basket = False
-    # g.delete_basket = False
+    g.delete_basket = False
     if '/static/' in request.path:
         return
     eshop.basket_init()
@@ -32,8 +32,8 @@ def wakeup():
 
 @app.after_request
 def sleep(response):
-    # if g.delete_basket:
-    # response.set_cookie ('basket', 'deleted', 1)
+    if g.delete_basket:
+        response.set_cookie('basket', 'deleted', 1)
 
     if g.save_basket:
         response.set_cookie("basket", eshop.basket_serialize())
