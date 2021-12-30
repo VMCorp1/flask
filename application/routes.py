@@ -75,9 +75,15 @@ def add_user():
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
-    return "Это форма логина в систему"
+    logged = False
+    if request.method == "POST":
+        logged = eshop.login(request.form)
+    if logged:
+        return redirect(url_for('admin'))
+    return render_template('admin/secure/login.html')
 
 
 @app.route('/logout/')
 def logout():
-    return "Это выход из системы"
+    eshop.logout()
+    return redirect(url_for('login'))

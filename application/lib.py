@@ -195,3 +195,24 @@ def add_user(data):
     except:
         db.session.rollback()
         flash("Пользователь с таким именем существует!")
+
+
+def login(data):
+    login = clear_str(data["login"])
+    password = clear_str(data["password"])
+    if not login or not password:
+        flash("Заполните все поля формы!")
+        return False
+    user = User.query.filter(User.login == login).first()
+    if not user:
+        flash("Логин или пароль не верны!")
+        return False
+    if not check_password_hash(user.password, password):
+        flash("Логин или пароль не верны!")
+        return False
+    session["logged"] = True
+    return True
+
+
+def logout():
+    session["logged"] = False
