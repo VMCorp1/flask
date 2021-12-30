@@ -68,7 +68,9 @@ def orders():
 
 @app.route('/admin/add_user/', methods=['GET', 'POST'])
 def add_user():
-    return "Это добавление сотрудника в систему"
+    if request.method == "POST":
+        eshop.add_user(request.form)
+        return render_template('admin/secure/add_user.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])

@@ -179,3 +179,19 @@ def get_orders():
         all_orders.append(order_info)
 
     return all_orders
+
+
+def add_user(data):
+    login = clear_str(data["login"])
+    password = clear_str(data["password"])
+    if not login or not password:
+        flash("Заполните все поля формы!")
+        return
+    try:
+        password = generate_password_hash(password)
+        db.session.add(User(login, password))
+        db.session.commit()
+        flash("Пользователь " + login + " успешно добавлен в систему")
+    except:
+        db.session.rollback()
+        flash("Пользователь с таким именем существует!")

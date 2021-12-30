@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, url_for, request, flash, redirect, Markup, g
 from flask_sqlalchemy import SQLAlchemy
-
+from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 DEBUG = True
 
