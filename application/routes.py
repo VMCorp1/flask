@@ -70,7 +70,7 @@ def orders():
 def add_user():
     if request.method == "POST":
         eshop.add_user(request.form)
-        return render_template('admin/secure/add_user.html')
+    return render_template('admin/secure/add_user.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])
