@@ -3,23 +3,41 @@
 {% block head %}{{ super() }}{% endblock %}
 {% block header %}Поступившие заказы{% endblock %}
 {% block body %}{{ super() }}<p>Вернуться в <a href="{{ url_for('admin') }}">админку</a></p>
+{%for order in orders%}
 <div class="order">
- <h2>Заказ номер: </h2>
- <p><span>Заказчик: </span></p>
- <p><span>Email: </span></p>
- <p><span>Телефон: </span></p>
- <p><span>Адрес доставки: </span></p>
- <p><span>Дата размещения заказа: </span></p>
+ <h2>Заказ номер: {{order.orderid}}</h2>
+ <p><span>Заказчик: {{order.name}}</span></p>
+ <p><span>Email: {{order.email}}</span></p>
+ <p><span>Телефон: {{order.phone}}</span></p>
+ <p><span>Адрес доставки: {{order.address}}</span></p>
+ <p><span>Дата размещения заказа: {{order.created}}</span></p>
  <h3>Купленные товары:</h3>
- <table>
- <tr>
-   <th>N п/п</th>
-   <th>Название</th>
-   <th>Автор</th>
-   <th>Год издания</th>
-   <th>Цена, руб.</th>
-   <th>Количество</th>
- </tr>
- </table>
- <p>Всего товаров в корзине на сумму:  руб.</p>
-</div>{% endblock %}
+</table>
+
+<table>
+    <tr>
+        <th>N п/п</th>
+        <th>Название</th>
+        <th>Автор</th>
+        <th>Год издания</th>
+        <th>Цена, руб.</th>
+        <th>Количество</th>
+    </tr>
+    {% set total = []%}
+    {% set counter = [0] %}
+    {%for item in order['items']%}
+    <tr>
+        <td>{{counter|length}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.author}}</td>
+        <td>{{item.pubyear}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.quantity}}</td>
+    </tr>
+
+    {% if counter.append(item.quantity) %}{% endif %}
+    {% if total.append(item.price * item.quantity) %}{% endif %}
+    {%endfor%}
+</table>
+ <p>Всего {{counter|sum}} {{ plural(counter|sum,'товар куплен', 'товара куплено','товаров куплено')}} на сумму: {{total|sum}} руб.</p>
+</div><hr />{%endfor%}{% endblock %}

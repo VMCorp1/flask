@@ -9,37 +9,44 @@ def page_not_found(e):
 @app.route('/')
 @app.route('/catalog')
 def catalog():
-    return render_template("catalog.html")
+    items = eshop.get_items_from_catalog()
+    return render_template('catalog.html', items=items, count=g.count)
 
 
 @app.route('/add2basket/<int:id>/')
 def add2basket(id):
-    return "Это добавление в корзину"
+    eshop.save2basket(id)
+    return redirect(url_for('catalog'))
 
 
 @app.route('/basket/')
 def basket():
-    return render_template("basket.html")
+    items = eshop.get_items_from_basket()
+    return render_template("basket.html", items=items, count=g.count, plural=eshop.plural)
 
 
 @app.route('/delete_from_basket/<int:id>/')
 def delete_from_basket(id):
-    return "Это удаление из корзины"
+    eshop.delete_from_basket(id)
+    return redirect(url_for('basket'))
 
 
 @app.route('/order/')
-def order():
-    return "Это оформление заказа"
+def order(data=[]):
+    return render_template("order.html", data=data)
 
 
 @app.route('/save_order/', methods=['POST'])
 def save_order():
-    return "Это сохранение заказов"
+    if eshop.save_order(request.form):
+        return render_template("save_order.html")
+    else:
+        return order(request.form)
 
 
 @app.route('/admin/')
 def admin():
-    return "Это админка"
+    return render_template("/admin/admin.html")
 
 
 @app.route('/admin/add2catalog/')
@@ -55,7 +62,8 @@ def save2catalog():
 
 @app.route('/admin/orders/')
 def orders():
-    return "Это отчёт о заказах"
+    orders = eshop.get_orders()
+    return render_template("/admin/orders.html", orders=orders, plural=eshop.plural)
 
 
 @app.route('/admin/add_user/', methods=['GET', 'POST'])

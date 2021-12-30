@@ -2,7 +2,7 @@
 {% block title %}Каталог товаров{% endblock %}
 {% block head %}{{ super() }}{% endblock %}
 {% block header %}Каталог товаров{% endblock %}
-{% block body %}{{ super() }}<p>Товаров в <a href="{{ url_for('basket') }}">корзине</a>:</p>
+{% block body %}{{ super() }}<p>Товаров в <a href="{{ url_for('basket') }}">корзине</a>:({{count}})</p>
 <table>
 <tr>
  <th>Название</th>
@@ -11,4 +11,14 @@
  <th>Цена, руб.</th>
  <th>В корзину</th>
 </tr>
-</table>{% endblock %}
+ {%for item in items%}
+  <tr>
+    <td>{{item.title}}</td>
+    <td>{{item.author}}</td>
+    <td>{{item.pubyear}}</td>
+    <td>{{item.price}}</td>
+    <td><a href='{{url_for('add2basket', id=item.id)}}'>В корзину</a></td>
+  </tr>
+{%endfor%}
+</table>
+{% endblock %}
