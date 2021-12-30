@@ -68,14 +68,22 @@ def orders():
 
 @app.route('/admin/add_user/', methods=['GET', 'POST'])
 def add_user():
-    return "Это добавление сотрудника в систему"
+    if request.method == "POST":
+        eshop.add_user(request.form)
+    return render_template('admin/secure/add_user.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
-    return "Это форма логина в систему"
+    logged = False
+    if request.method == "POST":
+        logged = eshop.login(request.form)
+    if logged:
+        return redirect(url_for('admin'))
+    return render_template('admin/secure/login.html')
 
 
 @app.route('/logout/')
 def logout():
-    return "Это выход из системы"
+    eshop.logout()
+    return redirect(url_for('login'))
