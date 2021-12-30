@@ -1,5 +1,5 @@
 from application import *
-import time
+import time, datetime
 
 
 def clear_str(input_str):
@@ -157,3 +157,25 @@ def save_order(data):
             flash("Произошла ошибка!")
             return False
     return False
+
+
+def get_orders():
+    all_orders = []
+    format = '%d-%m-%Y %H:%M:%S'
+    for order in db.session.query(Order):
+        order_info = {}
+
+        order_info['name'] = order.name
+        order_info['email'] = order.email
+        order_info['phone'] = order.phone
+        order_info['address'] = order.address
+        order_info['orderid'] = order.orderid
+        created = datetime.datetime.fromtimestamp(order.created).strftime(format)
+        order_info['created'] = created
+
+        items = db.session.query(OrderItem).filter(OrderItem.orderid == order.id).all()
+        order_info['items'] = items
+
+        all_orders.append(order_info)
+
+    return all_orders

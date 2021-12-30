@@ -10,7 +10,6 @@ def page_not_found(e):
 @app.route('/catalog')
 def catalog():
     items = eshop.get_items_from_catalog()
-    print(len(items))
     return render_template('catalog.html', items=items, count=g.count)
 
 
@@ -47,7 +46,7 @@ def save_order():
 
 @app.route('/admin/')
 def admin():
-    return "Это админка"
+    return render_template("/admin/admin.html")
 
 
 @app.route('/admin/add2catalog/')
@@ -63,7 +62,8 @@ def save2catalog():
 
 @app.route('/admin/orders/')
 def orders():
-    return "Это отчёт о заказах"
+    orders = eshop.get_orders()
+    return render_template("/admin/orders.html", orders=orders, plural=eshop.plural)
 
 
 @app.route('/admin/add_user/', methods=['GET', 'POST'])
